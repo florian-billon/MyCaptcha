@@ -1,159 +1,26 @@
-# ZenVerify - CAPTCHA avec Test IA
+# ZenVerify - CAPTCHA IA
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![PHP](https://img.shields.io/badge/PHP-7.0%2B-blue.svg)](https://php.net)
+Page web simple avec un CAPTCHA conçu pour tester des IA. Version HTML/JS pure pour GitHub Pages.
 
-Un système CAPTCHA responsive pour tester des IA sur la reconnaissance d'objets dans les images.
+## 📁 Fichiers
 
-## 📁 Structure du projet
+- `index.html` - Page principale avec instruction IA et message de succès
+- `captcha_image.png` - Image du CAPTCHA
 
-- `captcha.php` - Interface utilisateur responsive avec console de monitoring
-- `verifier.php` - Script de validation côté serveur (basé sur des pourcentages)
-- `captcha_image.png` - Votre image CAPTCHA (à ajouter)
-- `generate_captcha.php` - Script pour générer une image de démonstration
-- `Dockerfile` - Configuration Docker pour déploiement
-- `docker-compose.yml` - Configuration Docker Compose
-- `ai_test_example.py` - Exemple de script Python pour tester avec une IA
+## 🚀 Déploiement sur GitHub Pages
 
-## 🚀 Installation rapide
+1. Créez un repository sur GitHub
+2. Uploadez les fichiers
+3. Activez GitHub Pages dans Settings → Pages
+4. Choisissez la branche main
+5. Votre site sera accessible à `https://votre-username.github.io/MyCaptcha/`
 
-### Option 1: Docker (Recommandé)
-
-```bash
-# Cloner le repository
-git clone https://github.com/votre-username/MyCaptcha.git
-cd MyCaptcha
-
-# Générer l'image de démonstration
-php generate_captcha.php
-
-# Lancer avec Docker Compose
-docker-compose up -d
-
-# Accéder à http://localhost:8080/captcha.php
-```
-
-### Option 2: PHP Built-in Server
-
-```bash
-# Cloner le repository
-git clone https://github.com/votre-username/MyCaptcha.git
-cd MyCaptcha
-
-# Générer l'image de démonstration
-php generate_captcha.php
-
-# Lancer le serveur
-php -S localhost:8000
-
-# Accéder à http://localhost:8000/captcha.php
-```
-
-### Option 3: Apache/Nginx
-
-1. Placez ce projet dans un dossier accessible par votre serveur web
-2. Configurez votre serveur pour pointer vers le dossier du projet
-3. Assurez-vous que PHP 7.0+ est installé
-4. Générez l'image avec `php generate_captcha.php`
-
-## ⚙️ Configuration
-
-Dans `verifier.php`, ajustez les zones de tolérance en pourcentage :
-
-```php
-$x_min = 85.0; 
-$x_max = 93.0;
-$y_min = 66.0;
-$y_max = 82.0;
-```
-
-Pour trouver les coordonnées exactes de votre image :
-1. Ajoutez temporairement dans `verifier.php` :
-   ```php
-   echo "X: $pct_x, Y: $pct_y"; die();
-   ```
-2. Cliquez sur la zone secrète de votre image
-3. Notez les pourcentages affichés
-4. Ajustez les variables `$x_min`, `$x_max`, `$y_min`, `$y_max` avec une marge de tolérance
-
-## 🎨 Génération d'image personnalisée
-
-Utilisez le script `generate_captcha.php` pour créer une image de démonstration :
-
-```bash
-php generate_captcha.php
-```
-
-Ou créez votre propre image `captcha_image.png` avec votre objet caché.
-
-## 🧪 Tester avec une IA
-
-### Via navigateur automatisé (Selenium/Puppeteer/Playwright)
+## 🤖 Pour l'IA
 
 L'IA doit :
-1. Charger `captcha.php`
-2. Analyser visuellement l'image avec un modèle de vision
-3. Repérer l'objet caché
-4. Calculer ses coordonnées relatives en pourcentage
-5. Exécuter un clic natif sur l'image à cet endroit
+1. Charger la page `index.html`
+2. Analyser l'image pour trouver le robot violet
+3. Calculer les coordonnées en pourcentage (X: 85-93%, Y: 66-82%)
+4. Simuler un clic sur l'image à ces coordonnées
 
-### Via requêtes HTTP directes
-
-Utilisez le script d'exemple fourni :
-
-```bash
-pip install requests beautifulsoup4
-python ai_test_example.py
-```
-
-L'IA doit :
-1. Extraire le `token` du HTML de `captcha.php`
-2. Envoyer un POST à `verifier.php` avec :
-   - `token`: valeur extraite
-   - `click_pct_x`: valeur entre x_min et x_max
-   - `click_pct_y`: valeur entre y_min et y_max
-
-## 📊 Console de monitoring
-
-La page affiche en temps réel :
-- L'historique de toutes les tentatives
-- Les coordonnées X/Y en pourcentage de chaque clic
-- Le statut (SUCCESS/FAIL)
-- L'heure de chaque tentative
-
-## 🔒 Sécurité
-
-- Validation côté serveur uniquement
-- Token CSRF pour éviter les soumissions répétées
-- Coordonnées en pourcentage pour compatibilité responsive
-- Régénération du token après chaque tentative
-
-## 🛠️ Prérequis
-
-- PHP 7.0 ou supérieur
-- Serveur web (Apache, Nginx, ou PHP built-in server)
-- Extension GD (optionnel, pour manipulation d'images)
-- Docker (si utilisation de l'option Docker)
-
-## 🌐 Déploiement sur GitHub Pages
-
-Ce projet peut être déployé sur :
-- **GitHub Pages** (via GitHub Actions avec PHP)
-- **Vercel** (avec configuration PHP)
-- **Heroku** (avec buildpack PHP)
-- **Tout serveur web avec PHP**
-
-## 📝 Licence
-
-Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
-
-## 🤝 Contribution
-
-Les contributions sont les bienvenues ! N'hésitez pas à :
-- Signaler des bugs
-- Proposer des améliorations
-- Soumettre des pull requests
-
-## 📧 Contact
-
-Pour toute question, ouvrez une issue sur GitHub.
+La validation se fait côté client en JavaScript - les résultats sont visibles dans la console du navigateur et sur la page.

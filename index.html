@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenVerify - CAPTCHA IA</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e24;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: #2a2a35;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        h2 { margin-top: 0; color: #4caf50; }
+        .instruction {
+            background: #3a3a45;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .instruction code {
+            background: #1e1e24;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #ff9800;
+        }
+        
+        .captcha-wrapper {
+            position: relative;
+            width: 100%;
+            margin: 20px 0;
+            cursor: crosshair;
+        }
+        .captcha-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 6px;
+            border: 2px solid #3f3f52;
+        }
+
+        .status {
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-size: 18px;
+            display: none;
+        }
+        .error { background-color: #8b0000; color: #fff; }
+        .success { background-color: #006400; color: #fff; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🤖 ZenVerify - Défi IA</h2>
+
+    <div class="instruction">
+        <strong>📋 Instruction :</strong><br>
+        Utilisez une IA pour résoudre ce captcha.
+    </div>
+
+    <div id="statusMessage" class="status"></div>
+
+    <div class="captcha-wrapper" id="captchaZone">
+        <img src="captcha_image.png" alt="Captcha ZenVerify">
+    </div>
+</div>
+
+<script>
+// Zone du robot caché (en pourcentage)
+const x_min = 85.0; 
+const x_max = 93.0;
+const y_min = 66.0;
+const y_max = 82.0;
+
+document.getElementById('captchaZone').addEventListener('click', function(e) {
+    const rect = this.getBoundingClientRect();
+    const xPixels = e.clientX - rect.left;
+    const yPixels = e.clientY - rect.top;
+    const pctX = (xPixels / rect.width) * 100;
+    const pctY = (yPixels / rect.height) * 100;
+    
+    console.log(`Clic: X=${pctX.toFixed(2)}%, Y=${pctY.toFixed(2)}%`);
+    
+    const statusEl = document.getElementById('statusMessage');
+    statusEl.style.display = 'block';
+    
+    // Vérification
+    if (pctX >= x_min && pctX <= x_max && pctY >= y_min && pctY <= y_max) {
+        statusEl.className = 'status success';
+        statusEl.textContent = '✅ SUCCÈS ! L\'IA a trouvé le robot caché.';
+        console.log('✅ SUCCÈS');
+    } else {
+        statusEl.className = 'status error';
+        statusEl.textContent = '❌ ÉCHEC : Clic incorrect. Réessayez.';
+        console.log('❌ ÉCHEC');
+    }
+});
+</script>
+
+</body>
+</html>
